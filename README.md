@@ -1,4 +1,4 @@
-To set up locally:
+To set up locally:</br>
 Clone the repository</br>
 Run composer install</br>
 create a .env file</br>

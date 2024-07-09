@@ -11,6 +11,7 @@ class GeminiForm extends Component
 {
     public $query;
     public $response;
+    public $parsedQuestions = [];
     public $error;
 
     protected $rules = [
@@ -25,7 +26,6 @@ class GeminiForm extends Component
             $cacheKey = 'gemini_query_'.md5($this->query);
 
             $this->response = Cache::remember($cacheKey, 3600, function () {
-                // Cache the response for 1 hour (3600 seconds)
                 $geminiResponse = Gemini::geminiPro()->generateContent($this->query);
 
                 return $geminiResponse->text();
@@ -33,9 +33,12 @@ class GeminiForm extends Component
 
             $this->error = null;
 
+            // Parse response into questions array
+            $this->parsedQuestions = explode("\n", trim($this->response));
+
             Log::info('Gemini API Response Cached:', [
                 'query' => $this->query,
-                'response' => $this->response,
+                'response' => $this->parsedQuestions,
             ]);
         } catch (\Exception $e) {
             Log::error('Gemini API Exception: '.$e->getMessage(), [

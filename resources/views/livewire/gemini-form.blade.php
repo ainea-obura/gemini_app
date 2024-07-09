@@ -16,12 +16,18 @@
                     </form>
 
                     <div class="mt-3">
-                        @if ($response)
-                            <div class="alert alert-success">{{ $response }}</div>
+                        @if ($parsedQuestions)
+                            <ul>
+                                @foreach ($parsedQuestions as $question)
+                                    <li><strong>{{ $question }}</strong></li>
+                                @endforeach
+                            </ul>
                         @elseif ($error)
                             <div class="alert alert-danger">{{ $error }}</div>
                         @endif
                     </div>
+
+                    
                 </div>
             </div>
         </div>
